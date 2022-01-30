@@ -11,9 +11,16 @@ async fn main() {
 
     let srv = Server::new(db);
     let svc = ChatServer::new(srv);
+
+    let web = tonic_web::config().allow_all_origins().expose_headers(vec![
+        "x-forworded-for",
+        "x-real-ip",
+        "cf-connecting-ip",
+        "cf-ipcountry",
+    ]);
     tonic::transport::server::Server::builder()
         .accept_http1(true)
-        .add_service(svc)
+        .add_service(web.enable(svc))
         .serve(bind)
         .await
         .unwrap();
