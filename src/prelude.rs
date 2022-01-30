@@ -1,5 +1,6 @@
 //! 共用的必要程式
 use tonic::Status;
+use tracing::error;
 
 /// 把沒有資料的情況改成空陣列
 pub trait SkipNoData<T> {
@@ -14,7 +15,10 @@ impl<X> SkipNoData<Vec<X>> for sqlx::Result<Vec<X>> {
             Ok(x) => Ok(x),
             Err(err) => match err {
                 sqlx::Error::RowNotFound => Ok(vec![]),
-                x => Err(x),
+                err => {
+                    error!(?err, "未預期的 sql 錯誤");
+                    Err(err)
+                }
             },
         }
     }
@@ -30,7 +34,11 @@ impl<T, E: std::fmt::Display> To500<T> for Result<T, E> {
     fn to500(self) -> Result<T, Status> {
         match self {
             Ok(x) => Ok(x),
-            Err(err) => Err(Status::internal(err.to_string())),
+            Err(err) => {
+                error!(%err, "未預期的錯誤");
+
+                Err(Status::internal(err.to_string()))
+            }
         }
     }
 }
