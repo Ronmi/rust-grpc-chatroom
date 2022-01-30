@@ -2,7 +2,7 @@ use crate::load_recent_msg;
 use crate::prelude::*;
 use crate::proto::*;
 use sqlx::PgPool;
-use tonic::{Request, Response, Status};
+use tonic::{Response, Status};
 
 /// 實作 join rpc
 pub async fn run(db: &PgPool) -> Result<Response<JoinRes>, Status> {
