@@ -1,13 +1,24 @@
+use clap::Parser;
 use grpc_chatroom::{proto::chat_server::ChatServer, Server};
 use sqlx::Pool;
 use std::net::SocketAddr;
 
+#[derive(Parser, Debug)]
+#[clap()]
+struct Args {
+    #[clap(short, long)]
+    bind: String,
+    #[clap(short, long)]
+    database: String,
+}
+
 #[tokio::main]
 async fn main() {
-    let bind: SocketAddr = "0.0.0.0:50051".parse().unwrap();
+    let app = Args::parse();
 
-    let connstr = "postgresql://postgres:qwer1234@localhost:5432/chatroom";
-    let db = Pool::connect_lazy(connstr).unwrap();
+    let bind: SocketAddr = app.bind.as_str().parse().unwrap();
+
+    let db = Pool::connect_lazy(&app.database).unwrap();
 
     let srv = Server::new(db);
     let svc = ChatServer::new(srv);
