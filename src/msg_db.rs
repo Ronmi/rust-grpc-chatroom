@@ -1,4 +1,3 @@
-use crate::prelude::*;
 use sqlx::{
     types::chrono::{DateTime, Utc},
     PgPool,
@@ -26,7 +25,7 @@ LIMIT 50
     .fetch_all(conn)
     .await;
 
-    skip_no_row(res)
+    crate::skip_no_row!(res)
 }
 
 /// 寫入一筆訊息
