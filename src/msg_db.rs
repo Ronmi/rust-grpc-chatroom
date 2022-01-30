@@ -11,6 +11,16 @@ pub struct Message {
     create_at: DateTime<Utc>,
 }
 
+impl From<Message> for crate::proto::Message {
+    fn from(v: Message) -> Self {
+        crate::proto::Message {
+            name: v.name,
+            msg: v.message,
+            create_at: v.create_at.timestamp(),
+        }
+    }
+}
+
 /// 載入最近 50 筆訊息
 pub async fn load_recent_msg(conn: &PgPool) -> Result<Vec<Message>, sqlx::Error> {
     sqlx::query_as!(
