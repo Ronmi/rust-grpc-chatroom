@@ -7,14 +7,18 @@ edition = "2021"
 
 [dependencies]
 async-ctrlc = "1.2.0"
+chrono = "0.4.19"
 clap = { version = "3.0.13", features = ["derive"] }
 futures = "0.3.19"
 prost = "0.9.0"
 sqlx = { version = "0.5.10", features = ["offline", "postgres", "chrono", "runtime-tokio-native-tls"] }
+time = { version = "0.3.7", features = ["macros", "parsing", "formatting"] }
 tokio = { version = "1.16.1", features = ["sync"] }
 tokio-stream = { version = "0.1.8", features = ["sync"] }
 tonic = "0.6.2"
 tonic-web = "0.2.0"
+tracing = "0.1.29"
+tracing-subscriber = { version = "0.3.7", features = ["time"] }
 
 [build-dependencies]
 tonic-build = "0.6.2"
