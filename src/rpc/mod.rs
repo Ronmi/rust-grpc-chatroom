@@ -5,6 +5,7 @@ use std::pin::Pin;
 use tonic::{Request, Response, Status};
 
 mod join;
+mod say;
 
 /// grpc server 的程式
 pub struct Server {
@@ -26,7 +27,7 @@ impl Chat for Server {
         join::run(&self.db).await
     }
     async fn say(&self, request: Request<SayReq>) -> Result<Response<SayRes>, Status> {
-        Err(Status::unimplemented(""))
+        say::run(&self.db, request).await
     }
 
     type NewMsgStream = NewMsgStream;
