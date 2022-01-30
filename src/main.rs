@@ -29,10 +29,13 @@ async fn main() {
         "cf-connecting-ip",
         "cf-ipcountry",
     ]);
+
+    let signal = async_ctrlc::CtrlC::new().unwrap();
+
     tonic::transport::server::Server::builder()
         .accept_http1(true)
         .add_service(web.enable(svc))
-        .serve(bind)
+        .serve_with_shutdown(bind, signal)
         .await
         .unwrap();
 }
