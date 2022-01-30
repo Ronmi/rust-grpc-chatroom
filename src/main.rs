@@ -1,3 +1,20 @@
-fn main() {
-    println!("Hello, world!");
+use grpc_chatroom::{proto::chat_server::ChatServer, Server};
+use sqlx::Pool;
+use std::net::SocketAddr;
+
+#[tokio::main]
+async fn main() {
+    let bind: SocketAddr = "0.0.0.0:50051".parse().unwrap();
+
+    let connstr = "postgresql://postgres:qwer1234@localhost:5432/chatroom";
+    let db = Pool::connect_lazy(connstr).unwrap();
+
+    let srv = Server::new(db);
+    let svc = ChatServer::new(srv);
+    tonic::transport::server::Server::builder()
+        .accept_http1(true)
+        .add_service(svc)
+        .serve(bind)
+        .await
+        .unwrap();
 }
