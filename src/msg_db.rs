@@ -23,9 +23,15 @@ LIMIT 50
 "#,
     )
     .fetch_all(conn)
-    .await?;
+    .await;
 
-    Ok(res)
+    match res {
+        Ok(x) => Ok(x),
+        Err(err) => match err {
+            sqlx::Error::RowNotFound => Ok(vec![]),
+            x => Err(x),
+        },
+    }
 }
 
 /// 寫入一筆訊息
