@@ -1,15 +1,20 @@
 //! 共用的必要程式
 
-/// 處理 sql no row error，改成回傳空陣列
-#[macro_export]
-macro_rules! skip_no_row {
-    ($var:ident) => {
-        match $var {
+/// 把沒有資料的情況改成空陣列
+pub trait SkipNoData<T> {
+    /// 把沒有資料的情況改成空陣列
+    fn skip_no_data(self) -> sqlx::Result<T>;
+}
+
+/// 針對 Vec 實作
+impl<X> SkipNoData<Vec<X>> for sqlx::Result<Vec<X>> {
+    fn skip_no_data(self) -> sqlx::Result<Vec<X>> {
+        match self {
             Ok(x) => Ok(x),
             Err(err) => match err {
                 sqlx::Error::RowNotFound => Ok(vec![]),
                 x => Err(x),
             },
         }
-    };
+    }
 }

@@ -1,3 +1,4 @@
+use crate::prelude::*;
 use sqlx::{
     types::chrono::{DateTime, Utc},
     PgPool,
@@ -12,7 +13,7 @@ pub struct Message {
 
 /// 載入最近 50 筆訊息
 pub async fn load_recent_msg(conn: &PgPool) -> Result<Vec<Message>, sqlx::Error> {
-    let res = sqlx::query_as!(
+    sqlx::query_as!(
         Message,
         r#"
 SELECT
@@ -23,9 +24,8 @@ LIMIT 50
 "#,
     )
     .fetch_all(conn)
-    .await;
-
-    crate::skip_no_row!(res)
+    .await
+    .skip_no_data()
 }
 
 /// 寫入一筆訊息
