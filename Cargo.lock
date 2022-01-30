@@ -436,6 +436,8 @@ dependencies = [
  "futures",
  "prost",
  "sqlx",
+ "tokio",
+ "tokio-stream",
  "tonic",
  "tonic-build",
 ]
@@ -1443,6 +1445,7 @@ dependencies = [
  "futures-core",
  "pin-project-lite",
  "tokio",
+ "tokio-util",
 ]
 
 [[package]]

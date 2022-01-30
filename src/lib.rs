@@ -6,10 +6,10 @@ pub use msg_db::*;
 
 pub mod prelude;
 
+mod rpc;
+pub use rpc::Server;
+
 #[allow(missing_docs)]
 pub mod proto {
     tonic::include_proto!("chat");
 }
-
-mod rpc;
-pub use rpc::Server;

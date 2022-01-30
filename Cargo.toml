@@ -9,6 +9,8 @@ edition = "2021"
 futures = "0.3.19"
 prost = "0.9.0"
 sqlx = { version = "0.5.10", features = ["offline", "postgres", "chrono", "runtime-tokio-native-tls"] }
+tokio = { version = "1.16.1", features = ["sync"] }
+tokio-stream = { version = "0.1.8", features = ["sync"] }
 tonic = "0.6.2"
 
 [build-dependencies]

@@ -26,7 +26,7 @@ pub trait To500<T> {
     fn to500(self) -> Result<T, Status>;
 }
 
-impl<T> To500<T> for sqlx::Result<T> {
+impl<T, E: std::fmt::Display> To500<T> for Result<T, E> {
     fn to500(self) -> Result<T, Status> {
         match self {
             Ok(x) => Ok(x),
