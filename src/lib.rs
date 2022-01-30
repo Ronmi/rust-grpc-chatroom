@@ -10,3 +10,6 @@ pub mod prelude;
 pub mod proto {
     tonic::include_proto!("chat");
 }
+
+mod rpc;
+pub use rpc::Server;
