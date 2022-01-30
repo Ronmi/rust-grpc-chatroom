@@ -1,0 +1,33 @@
+syntax = "proto3";
+package chat;
+
+// 主要的 service 定義
+service Chat {
+  // 處理成員加入
+  rpc Join(JoinReq) returns (JoinRes);
+  // 處理成員發言
+  rpc Say(SayReq) returns (SayRes);
+  // 發言通知
+  rpc NewMsg(NewMsgReq) returns (stream Message);
+}
+
+// 訊息內容
+message Message {
+  string name = 1;
+  string msg = 2;
+  int64 create_at = 3; // unix timestamp
+}
+message JoinReq{}
+
+message JoinRes{
+  repeated Message msgs = 1;
+}
+
+message SayReq {
+  string name = 1;
+  string msg = 2;
+}
+
+message SayRes {}
+
+message NewMsgReq {}
