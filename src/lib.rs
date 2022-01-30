@@ -5,3 +5,8 @@ mod msg_db;
 pub use msg_db::*;
 
 pub mod prelude;
+
+#[allow(missing_docs)]
+pub mod proto {
+    tonic::include_proto!("chat");
+}
