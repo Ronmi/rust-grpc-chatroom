@@ -1,0 +1,46 @@
+{
+  "db": "PostgreSQL",
+  "0145c7c4f7c9489fb749b7831d2b68d35642e88ec993367de91cdf13a9b2d0b4": {
+    "query": "\nINSERT INTO messages (name, message, create_at) VALUES ($1,$2,CURRENT_TIMESTAMP)\n",
+    "describe": {
+      "columns": [],
+      "parameters": {
+        "Left": [
+          "Varchar",
+          "Text"
+        ]
+      },
+      "nullable": []
+    }
+  },
+  "329d84d6213f07b85d878bde1d0d725ba8e3d98438f4e41b9bfe53767e2a35c8": {
+    "query": "\nSELECT\n  name, message, create_at\nFROM messages\nORDER BY create_at DESC\nLIMIT 50\n",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "name",
+          "type_info": "Varchar"
+        },
+        {
+          "ordinal": 1,
+          "name": "message",
+          "type_info": "Text"
+        },
+        {
+          "ordinal": 2,
+          "name": "create_at",
+          "type_info": "Timestamptz"
+        }
+      ],
+      "parameters": {
+        "Left": []
+      },
+      "nullable": [
+        false,
+        false,
+        false
+      ]
+    }
+  }
+}
